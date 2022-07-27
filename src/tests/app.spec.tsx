@@ -27,7 +27,7 @@ describe("TodoApp", () => {
       </AppContextProvider>
     );
   });
-  beforeEach(() => {
+  afterEach(() => {
     cleanup();
   });
 
@@ -51,5 +51,15 @@ describe("TodoApp", () => {
       fireEvent.click(buyMilkTodo);
     });
     await waitFor(() => expect(buyMilkTodo).not.toBeChecked());
+  });
+
+  it("Deletes Item - Item should be removed from list", async () => {
+    const buyMilkTodo = screen.getByTestId("Buy milk");
+    const deleteButton = screen.getByTestId("btn-delete-Buy milk");
+    expect(buyMilkTodo).toBeChecked();
+    act(() => {
+      fireEvent.click(deleteButton);
+    });
+    await waitFor(() => expect(buyMilkTodo).not.toBeInTheDocument());
   });
 });

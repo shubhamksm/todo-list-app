@@ -9,7 +9,7 @@ type TodoItemProps = {
 const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
   const { dispatch } = useContext(AppContext);
   return (
-    <li key={id}>
+    <li>
       <div>
         <input
           type="checkbox"
@@ -27,7 +27,15 @@ const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
       </div>
       <div>
         <button>Edit</button>
-        <button className="--red">Delete</button>
+        <button
+          className="--red"
+          data-testid={`btn-delete-${text}`}
+          onClick={() =>
+            dispatch({ payload: { id }, type: ACTION_TYPES.TODO_ITEM_DELETE })
+          }
+        >
+          Delete
+        </button>
       </div>
     </li>
   );

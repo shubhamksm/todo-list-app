@@ -43,8 +43,10 @@ const reducer = (state: AppStateInterface, action: ActionInterface) => {
       return { ...state };
     }
     case ACTION_TYPES.TODO_ITEM_DELETE: {
-      // Delete Action logic will come here
-      return { ...state };
+      const updatedTodoList = state.todoList.filter(
+        (item) => item.id !== action.payload.id
+      );
+      return { ...state, todoList: updatedTodoList };
     }
     case ACTION_TYPES.TODO_ITEM_UPDATE: {
       const currentElementIndex = state.todoList.findIndex(
