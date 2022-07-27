@@ -9,12 +9,14 @@ const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
   return (
     <li key={id}>
       <div>
-        <input type="checkbox" name={text} checked={done} id={`todo${id}`} />
-        <label
-          htmlFor={`todo${id}`}
-          className={`${done && "--checked"}`}
-          data-testid={`todo${id}`}
-        >
+        <input
+          type="checkbox"
+          name={text}
+          data-testid={text}
+          checked={done}
+          id={`todo${id}`}
+        />
+        <label htmlFor={`todo${id}`} className={`${done && "--checked"}`}>
           {text}
         </label>
       </div>

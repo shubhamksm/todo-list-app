@@ -54,7 +54,10 @@ const reducer = (state: AppStateInterface, action: ActionInterface) => {
 };
 
 export const AppContextProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(
+    reducer,
+    props.intialState ?? initialState
+  );
   const value = useMemo(() => ({ ...state, dispatch }), [state]);
 
   return (
