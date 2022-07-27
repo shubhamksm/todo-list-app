@@ -1,5 +1,6 @@
 import React, { useMemo, useReducer } from "react";
 import { TodoItemInterface } from "../types";
+import { camalize } from "../utils";
 
 export const AppContext = React.createContext<AppContextType>(
   {} as AppContextType
@@ -13,18 +14,21 @@ export const initialState = {
     { text: "Buy milk", done: true, id: "buyMilk" },
     { text: "Buy bread", done: false, id: "buyBread" },
     { text: "Buy Tea", done: false, id: "buyTea" }
-  ]
+  ],
+  editMode: false
 };
 
 interface AppStateInterface {
   todoList: TodoItemInterface[];
+  editMode: boolean;
 }
 
 export enum ACTION_TYPES {
   TODO_ITEM_CREATE = "TODO_ITEM_CREATE",
   TODO_ITEM_EDIT = "TODO_ITEM_EDIT",
   TODO_ITEM_DELETE = "TODO_ITEM_DELETE",
-  TODO_ITEM_UPDATE = "TODO_ITEM_UPDATE"
+  TODO_ITEM_UPDATE = "TODO_ITEM_UPDATE",
+  TOGGLE_EDIT_MODE = "TOGGLE_EDIT_MODE"
 }
 
 type ActionInterface = {
@@ -35,8 +39,20 @@ type ActionInterface = {
 const reducer = (state: AppStateInterface, action: ActionInterface) => {
   switch (action.type) {
     case ACTION_TYPES.TODO_ITEM_CREATE: {
-      // Create Action logic will come here
-      return { ...state };
+      const id = camalize(action.payload.text);
+      if (state.todoList.find((item) => item.id === id) !== undefined) {
+        return { ...state };
+      }
+      const newTodoItem = {
+        id,
+        text: action.payload.text,
+        done: false
+      };
+      return {
+        ...state,
+        todoList: [newTodoItem, ...state.todoList],
+        editMode: false
+      };
     }
     case ACTION_TYPES.TODO_ITEM_EDIT: {
       // Edit Action logic will come here
@@ -58,6 +74,15 @@ const reducer = (state: AppStateInterface, action: ActionInterface) => {
         done: !updatedTodoList[currentElementIndex].done
       };
       return { ...state, todoList: updatedTodoList };
+    }
+    case ACTION_TYPES.TOGGLE_EDIT_MODE: {
+      return {
+        ...state,
+        editMode: action.payload.editMode
+      };
+    }
+    default: {
+      return { ...state };
     }
   }
 };

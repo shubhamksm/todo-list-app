@@ -7,7 +7,7 @@ type TodoItemProps = {
 };
 
 const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch, editMode } = useContext(AppContext);
   return (
     <li>
       <div>
@@ -26,13 +26,14 @@ const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
         </label>
       </div>
       <div>
-        <button>Edit</button>
+        <button disabled={editMode}>Edit</button>
         <button
           className="--red"
           data-testid={`btn-delete-${text}`}
           onClick={() =>
             dispatch({ payload: { id }, type: ACTION_TYPES.TODO_ITEM_DELETE })
           }
+          disabled={editMode}
         >
           Delete
         </button>

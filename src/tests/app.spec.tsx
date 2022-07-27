@@ -62,4 +62,27 @@ describe("TodoApp", () => {
     });
     await waitFor(() => expect(buyMilkTodo).not.toBeInTheDocument());
   });
+
+  it.only("Insert Item - Item should be inserted on top of the list", async () => {
+    const addNewTask = screen.getByTestId("add-new-task");
+    expect(() => screen.getByTestId("New Todo")).toThrow();
+    act(() => {
+      fireEvent.click(addNewTask);
+    });
+    const inputElement = screen.getByTestId("default-input");
+    const enterButton = screen.getByTestId("btn-enter");
+    await waitFor(() => {
+      expect(inputElement).toBeInTheDocument();
+      expect(enterButton).toBeInTheDocument();
+    });
+    act(() => {
+      fireEvent.change(inputElement, { target: { value: "New Todo" } });
+    });
+    act(() => {
+      fireEvent.click(enterButton);
+    });
+    await waitFor(() =>
+      expect(screen.getByTestId("New Todo")).toBeInTheDocument()
+    );
+  });
 });
