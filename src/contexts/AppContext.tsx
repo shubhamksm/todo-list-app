@@ -55,8 +55,15 @@ const reducer = (state: AppStateInterface, action: ActionInterface) => {
       };
     }
     case ACTION_TYPES.TODO_ITEM_EDIT: {
-      // Edit Action logic will come here
-      return { ...state };
+      const currentElementIndex = state.todoList.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      const updatedTodoList = [...state.todoList];
+      updatedTodoList[currentElementIndex] = {
+        ...updatedTodoList[currentElementIndex],
+        text: action.payload.text
+      };
+      return { ...state, todoList: updatedTodoList, editMode: false };
     }
     case ACTION_TYPES.TODO_ITEM_DELETE: {
       const updatedTodoList = state.todoList.filter(

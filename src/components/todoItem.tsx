@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { TodoItemInterface } from "../types";
 import { AppContext, ACTION_TYPES } from "../contexts/AppContext";
+import TodoInput from "./todoInput";
 
 type TodoItemProps = {
   todo: TodoItemInterface;
@@ -8,7 +9,39 @@ type TodoItemProps = {
 
 const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
   const { dispatch, editMode } = useContext(AppContext);
-  return (
+  const [showinput, toggleShowInput] = useState(false);
+
+  const handleClick = () => {
+    toggleShowInput(true);
+    dispatch({
+      payload: { editMode: true },
+      type: ACTION_TYPES.TOGGLE_EDIT_MODE
+    });
+  };
+
+  const handleCancel = () => {
+    toggleShowInput(false);
+    dispatch({
+      payload: { editMode: false },
+      type: ACTION_TYPES.TOGGLE_EDIT_MODE
+    });
+  };
+
+  const handleSuccess = (value: string) => {
+    toggleShowInput(false);
+    dispatch({
+      payload: { text: value, id },
+      type: ACTION_TYPES.TODO_ITEM_EDIT
+    });
+  };
+
+  return showinput ? (
+    <TodoInput
+      onSuccess={handleSuccess}
+      onCancel={handleCancel}
+      defautValue={text}
+    />
+  ) : (
     <li>
       <div>
         <input
@@ -26,7 +59,9 @@ const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
         </label>
       </div>
       <div>
-        <button disabled={editMode}>Edit</button>
+        <button onClick={handleClick} disabled={editMode}>
+          Edit
+        </button>
         <button
           className="--red"
           data-testid={`btn-delete-${text}`}

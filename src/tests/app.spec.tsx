@@ -6,7 +6,6 @@ import {
   screen,
   waitFor
 } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/extend-expect";
 import { AppContextProvider } from "../contexts/AppContext";
 import { act } from "react-dom/test-utils";
@@ -63,7 +62,7 @@ describe("TodoApp", () => {
     await waitFor(() => expect(buyMilkTodo).not.toBeInTheDocument());
   });
 
-  it.only("Insert Item - Item should be inserted on top of the list", async () => {
+  it("Insert Item - Item should be inserted on top of the list", async () => {
     const addNewTask = screen.getByTestId("add-new-task");
     expect(() => screen.getByTestId("New Todo")).toThrow();
     act(() => {

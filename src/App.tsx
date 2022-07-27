@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { TodoList } from "./components/todoList";
 import { AppContext } from "./contexts/AppContext";
 
 import "./styles.scss";
 
 export default function App() {
-  const { dispatch, todoList } = useContext(AppContext);
+  const { todoList } = useContext(AppContext);
 
   return (
     <div className="todoListApp" data-testid="main-app">
