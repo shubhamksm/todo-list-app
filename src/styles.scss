@@ -23,6 +23,10 @@ body {
   background-color: #00a8f0;
   color: #FFF;
   border: none;
+
+  &.--red {
+    background-color: red;
+  }
 }
 .todoListApp button:hover {
   cursor: pointer;
@@ -39,6 +43,15 @@ body {
   margin-bottom: 10px;
   border-radius: 2px;
   list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    &.--checked {
+      text-decoration: line-through;
+    }
+  }
 }
 ul.todoList {
   padding: 0;

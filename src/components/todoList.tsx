@@ -1,15 +1,15 @@
 import React from "react";
+import { TodoItemInterface } from "../types";
+import TodoItem from "./todoItem";
 
 type TodoListProps = {
-  todos: any[];
+  todos: TodoItemInterface[];
 };
 export const TodoList = ({ todos }: TodoListProps) => {
   return (
     <ul className="todoList">
-      {todos.map((item, i) => (
-        <li key={i}>
-          <span data-testid={`todo${i}`}>{item.text}</span>
-        </li>
+      {todos.map((item) => (
+        <TodoItem todo={item} />
       ))}
     </ul>
   );
