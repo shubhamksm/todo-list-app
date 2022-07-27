@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { TodoList } from "./components/todoList";
+import { AppContext } from "./contexts/AppContext";
 
 import "./styles.scss";
 
 export default function App() {
-  const [todos, setTodos] = useState([
-    { text: "Buy milk", done: true, id: "buyMilk" },
-    { text: "Buy bread", done: false, id: "buyBread" }
-  ]);
+  const { dispatch, todoList } = useContext(AppContext);
 
   return (
     <div className="todoListApp">
       <div className="forsta-logo" />
-      <TodoList todos={todos} />
+      <TodoList todos={todoList} />
     </div>
   );
 }
