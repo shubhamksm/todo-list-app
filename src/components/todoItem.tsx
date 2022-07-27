@@ -59,7 +59,11 @@ const TodoItem = ({ todo: { id, text, done } }: TodoItemProps) => {
         </label>
       </div>
       <div>
-        <button onClick={handleClick} disabled={editMode}>
+        <button
+          onClick={handleClick}
+          data-testid={`btn-edit-${text}`}
+          disabled={editMode}
+        >
           Edit
         </button>
         <button

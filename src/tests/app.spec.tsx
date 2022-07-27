@@ -84,4 +84,28 @@ describe("TodoApp", () => {
       expect(screen.getByTestId("New Todo")).toBeInTheDocument()
     );
   });
+
+  it("Edit Item - Item Text will get updated on Edit", async () => {
+    const buyMilkTodo = screen.getByTestId("Buy milk");
+    const editButton = screen.getByTestId("btn-edit-Buy milk");
+    act(() => {
+      fireEvent.click(editButton);
+    });
+    const inputElement = screen.getByTestId("default-input");
+    const enterButton = screen.getByTestId("btn-enter");
+    await waitFor(() => {
+      expect(inputElement).toBeInTheDocument();
+      expect(enterButton).toBeInTheDocument();
+    });
+    act(() => {
+      fireEvent.change(inputElement, { target: { value: "New Todo" } });
+    });
+    act(() => {
+      fireEvent.click(enterButton);
+    });
+    await waitFor(() => {
+      expect(buyMilkTodo).not.toBeInTheDocument();
+      expect(screen.getByTestId("New Todo")).toBeInTheDocument();
+    });
+  });
 });
