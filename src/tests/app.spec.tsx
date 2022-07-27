@@ -1,20 +1,18 @@
 import App from "../App";
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/extend-expect";
 import { AppContextProvider } from "../contexts/AppContext";
+import { act } from "react-dom/test-utils";
 
 describe("TodoApp", () => {
-  it("renders app", () => {
-    const app = render(
-      <AppContextProvider>
-        <App />
-      </AppContextProvider>
-    );
-    expect(app).not.toBeUndefined();
-  });
-  //
-  it("renders initial items", () => {
+  beforeEach(() => {
     render(
       <AppContextProvider
         initialState={{
@@ -28,13 +26,30 @@ describe("TodoApp", () => {
         <App />
       </AppContextProvider>
     );
+  });
+  beforeEach(() => {
+    cleanup();
+  });
 
+  it("renders app", () => {
+    expect(screen.getByTestId("main-app")).toBeTruthy();
+  });
+
+  it("renders initial items", () => {
     expect(screen.getByText("Buy milk")).toBeDefined();
     const buyMilkTodo = screen.getByTestId("Buy milk");
     expect(buyMilkTodo).toBeChecked();
 
-    //TODO: Verify second todo
     const buyBreadTodo = screen.getByTestId("Buy bread");
     expect(buyBreadTodo).not.toBeChecked();
+  });
+
+  it("Updates Item - Check / UnCheck", async () => {
+    const buyMilkTodo = screen.getByTestId("Buy milk");
+    expect(buyMilkTodo).toBeChecked();
+    act(() => {
+      fireEvent.click(buyMilkTodo);
+    });
+    await waitFor(() => expect(buyMilkTodo).not.toBeChecked());
   });
 });

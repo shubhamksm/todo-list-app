@@ -8,7 +8,7 @@ export default function App() {
   const { dispatch, todoList } = useContext(AppContext);
 
   return (
-    <div className="todoListApp">
+    <div className="todoListApp" data-testid="main-app">
       <div className="forsta-logo" />
       <TodoList todos={todoList} />
     </div>

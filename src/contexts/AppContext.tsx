@@ -47,8 +47,15 @@ const reducer = (state: AppStateInterface, action: ActionInterface) => {
       return { ...state };
     }
     case ACTION_TYPES.TODO_ITEM_UPDATE: {
-      // Update Action logic will come here
-      return { ...state };
+      const currentElementIndex = state.todoList.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      const updatedTodoList = [...state.todoList];
+      updatedTodoList[currentElementIndex] = {
+        ...updatedTodoList[currentElementIndex],
+        done: !updatedTodoList[currentElementIndex].done
+      };
+      return { ...state, todoList: updatedTodoList };
     }
   }
 };
